@@ -12,6 +12,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Icon,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
@@ -22,6 +23,7 @@ import {
   RiDeleteBin6Fill,
   RiPushpinFill,
   RiPushpinLine,
+  RiBlurOffLine,
 } from 'react-icons/ri';
 
 type NoteCardProps = {
@@ -63,6 +65,11 @@ const NoteCard: React.FC<NoteCardProps> = ({
       maxW='fit-content'
       size='sm'
       bg={backgroundColor}
+      border={
+        backgroundColor == 'transparent'
+          ? '1px solid gray'
+          : '1px solid transparent'
+      }
       m={3}
       pl={3}
       onMouseOver={() => setIsHovering(true)}
@@ -117,11 +124,31 @@ const NoteCard: React.FC<NoteCardProps> = ({
               color={isHovering ? 'white' : 'transparent'}
               icon={<RiPaletteLine />}
             />
-            <MenuList pl={3}>
+            <MenuList
+              p={2}
+              width={'fit-content'}
+            >
               <Flex
                 dir='row'
                 gap={2}
               >
+                {/* <MenuItem
+                  p={0}
+                  w={7}
+                  bg={'transparent'}
+                  borderRadius={'100%'}
+                  border={'2px solid transparent'}
+                  _hover={{
+                    border: '2px solid white',
+                  }}
+                  onClick={() => handleBackgrounChange('transparent')}
+                  icon={
+                    <Icon
+                      boxSize={6}
+                      as={RiBlurOffLine}
+                    />
+                  }
+                /> */}
                 {colors.map((color) => {
                   return (
                     <MenuItem
@@ -129,7 +156,9 @@ const NoteCard: React.FC<NoteCardProps> = ({
                       bg={color}
                       key={color}
                       borderRadius={'100%'}
-                      border='2px solid transparent'
+                      border={`2px solid ${
+                        backgroundColor == color ? 'white' : 'transparent'
+                      }`}
                       onClick={() => handleBackgrounChange(color)}
                       _hover={{
                         border: '2px solid white',

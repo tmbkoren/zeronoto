@@ -36,7 +36,16 @@ type NoteCardProps = {
   color: undefined | string;
 };
 
-const colors = ['red', 'blue', 'green', 'teal', 'purple', 'pink'];
+const colors = [
+  'red.400',
+  'blue.400',
+  'green.500',
+  'teal',
+  'purple.500',
+  'pink.500',
+  'orange.500',
+  'gray',
+];
 
 const NoteCard: React.FC<NoteCardProps> = ({
   title,
@@ -70,6 +79,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
           ? '1px solid gray'
           : '1px solid transparent'
       }
+      borderRadius={'lg'}
       m={3}
       pl={3}
       onMouseOver={() => setIsHovering(true)}
@@ -90,6 +100,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
           ) : null}
           {pinned ? (
             <IconButton
+              isRound={true}
               aria-label='Unpin note'
               bg='transparent'
               onClick={() => setPinned(false)}
@@ -97,6 +108,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
             />
           ) : (
             <IconButton
+              isRound={true}
               aria-label='Pin note'
               bg='transparent'
               onClick={() => setPinned(true)}

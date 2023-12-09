@@ -14,7 +14,7 @@ import {
   MenuItem,
   Icon,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   RiPaletteFill,
@@ -34,6 +34,8 @@ type NoteCardProps = {
   isCompleted: boolean;
   isPinned: boolean;
   color: undefined | string;
+  edit: (id: string, note: any) => void;
+  deleteNote: (id: string) => void;
 };
 
 const colors = [
@@ -48,6 +50,8 @@ const colors = [
 ];
 
 const NoteCard: React.FC<NoteCardProps> = ({
+  edit,
+  deleteNote,
   title,
   content,
   id,
@@ -61,10 +65,32 @@ const NoteCard: React.FC<NoteCardProps> = ({
   const [backgroundColor, setBackgroundColor] = useState(color);
 
   const handleDelete = () => {
-    console.log('delete');
+    deleteNote(id);
+  };
+
+  const handlePinned = () => {
+    edit(id, {
+      title,
+      content,
+      id,
+      createdAt,
+      isCompleted,
+      isPinned: !pinned,
+      color,
+    });
+    setPinned(!pinned);
   };
 
   const handleBackgrounChange = (color: string) => {
+    edit(id, {
+      title,
+      content,
+      id,
+      createdAt,
+      isCompleted,
+      isPinned,
+      color,
+    });
     setBackgroundColor(color);
   };
 
@@ -103,7 +129,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
               isRound={true}
               aria-label='Unpin note'
               bg='transparent'
-              onClick={() => setPinned(false)}
+              onClick={() => handlePinned()}
               icon={<RiPushpinFill />}
             />
           ) : (
@@ -111,7 +137,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
               isRound={true}
               aria-label='Pin note'
               bg='transparent'
-              onClick={() => setPinned(true)}
+              onClick={() => handlePinned()}
               color={isHovering ? 'white' : 'transparent'}
               icon={<RiPushpinLine />}
             />

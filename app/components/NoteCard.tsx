@@ -26,17 +26,7 @@ import {
   RiBlurOffLine,
 } from 'react-icons/ri';
 
-type NoteCardProps = {
-  title: string;
-  content: string;
-  id: string;
-  createdAt: Date;
-  isCompleted: boolean;
-  isPinned: boolean;
-  color: undefined | string;
-  edit: (id: string, note: any) => void;
-  deleteNote: (id: string) => void;
-};
+import { NoteCardProps } from '~/types/types';
 
 const colors = [
   'red.400',
@@ -49,17 +39,8 @@ const colors = [
   'gray',
 ];
 
-const NoteCard: React.FC<NoteCardProps> = ({
-  edit,
-  deleteNote,
-  title,
-  content,
-  id,
-  createdAt,
-  isCompleted,
-  isPinned = false,
-  color = undefined,
-}) => {
+const NoteCard: React.FC<NoteCardProps> = ({ edit, deleteNote, data }) => {
+  const { title, content, id, createdAt, isCompleted, isPinned, color } = data;
   const [isHovering, setIsHovering] = useState(false);
   const [pinned, setPinned] = useState(isPinned);
   const [backgroundColor, setBackgroundColor] = useState(color);

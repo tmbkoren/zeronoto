@@ -2,8 +2,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { withEmotionCache } from '@emotion/react';
 import {
+  Box,
   ChakraProvider,
   DarkMode,
+  Flex,
   ThemeConfig,
   extendTheme,
 } from '@chakra-ui/react';
@@ -97,71 +99,13 @@ const config: ThemeConfig = {
 
 const customTheme = extendTheme({ config });
 
-const data = [
-  {
-    title: 'Note 1',
-    content: 'This is the content of note 1.',
-    id: '1',
-    createdAt: new Date(),
-    isCompleted: false,
-    isPinned: false,
-    color: 'teal',
-  },
-  {
-    title: 'Note 2',
-    content: 'This is the content of note 2.',
-    id: '2',
-    createdAt: new Date(),
-    isCompleted: true,
-    isPinned: true,
-    color: 'blue',
-  },
-  {
-    title: 'Note 3',
-    content: 'This is the content of note 3.',
-    id: '3',
-    createdAt: new Date(),
-    isCompleted: false,
-    isPinned: true,
-    color: 'purple',
-  },
-];
-
 export default function App() {
-  const [notes, setNotes] = useState(() => {
-    const savedNotes =
-      typeof window !== 'undefined'
-        ? window.localStorage.getItem('notes')
-        : null;
-    const parsedNotes = savedNotes ? JSON.parse(savedNotes) : [];
-    return parsedNotes.length > 0 ? parsedNotes : data;
-  });
-
-  // Save notes to localStorage every time they change
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      console.log('saving notes');
-      window.localStorage.setItem('notes', JSON.stringify(notes));
-    }
-  }, [notes]);
-  const editNoteById = (id: string, note: any) => {
-    const newNotes = notes.map((n) => {
-      if (n.id === id) {
-        return note;
-      }
-      return n;
-    });
-    setNotes(newNotes);
-    console.log(newNotes);
-  };
-  const deleteNoteById = (id: string) => {
-    const newNotes = notes.filter((n) => n.id !== id);
-    setNotes(newNotes);
-  };
   return (
     <Document>
       <ChakraProvider theme={customTheme}>
-        <Outlet context={[notes, editNoteById, deleteNoteById]} />
+        <Flex justify={'center'} padding={8}>
+          <Outlet context={[null, null, null]} />
+        </Flex>
       </ChakraProvider>
     </Document>
   );

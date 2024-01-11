@@ -1,16 +1,22 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { Form } from '@remix-run/react';
+import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { Form, useLoaderData } from '@remix-run/react';
+import { authenticator } from '~/services/auth.server';
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  let user = await authenticator.isAuthenticated(request);
+  return user;
+}
 
 export default function Login() {
+  const user = useLoaderData();
   return (
-    <Form>
-      <Flex
-        justify={'center'}
-        align={'center'}
-        height={'100vh'}
-      >
-        Login
-      </Flex>
+    <Form
+      action={user ? '/logout' : '/auth/google'}
+      method='post'
+    >
+      <Box>{user?.email}</Box>
+      <button>{user ? 'Logout' : 'Login with Google'}</button>
     </Form>
   );
 }

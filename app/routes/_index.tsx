@@ -1,13 +1,16 @@
 import { Button, useColorMode } from '@chakra-ui/react';
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
+import {
+  json,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  type MetaFunction,
 } from '@remix-run/node';
 import { Form, Link, useLoaderData, useOutletContext } from '@remix-run/react';
 import CreateNoteForm from '~/components/CreateNoteForm';
 import NoteCardDisplay from '~/components/NoteCardDisplay';
 import { authenticator } from '~/services/auth.server';
+import { Note, NoteCardDisplayProps, User } from '~/types/types';
+import { getNotesById } from '~/services/note.server';
 
 export const meta: MetaFunction = () => {
   return [
@@ -21,24 +24,30 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   let user = await authenticator.isAuthenticated(request);
-  return user;
-}
-
-export async function action({ request }: ActionFunctionArgs) {
-  await authenticator.logout(request, { redirectTo: '/login' });
+  let userId = null;
+  let data: Note[] = [];
+  if (user) {
+    data = await getNotesById(user.id);
+    userId = user.id;
+  }
+  return json({ userId, data });
 }
 
 export default function Index() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const user = useLoaderData();
-  console.log(user);
+  const { userId, data } = useLoaderData<NoteCardDisplayProps>();
+  //console.log(userId, data);
 
   //const [data, editNoteById, deleteNoteById] = useOutletContext();
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
-      <CreateNoteForm />
-      <NoteCardDisplay data={[]} />
-      {user ? (
+      {userId ? (
+        <>
+          <CreateNoteForm userId={userId}/>
+          <NoteCardDisplay userId={userId} data={data.notes} />
+        </>
+      ) : null}
+      {userId ? (
         <Form
           action='/logout'
           method='post'

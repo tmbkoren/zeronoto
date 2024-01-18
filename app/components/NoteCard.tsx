@@ -39,10 +39,11 @@ const colors = [
   'gray',
 ];
 
-const NoteCard: React.FC<NoteCardProps> = ({ edit, deleteNote, data }) => {
-  const { title, content, id, createdAt, isCompleted, isPinned, color } = data;
+const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
+  const [note, setNote] = useState(data);
+  let { title, content, id, createdAt, completed, pinned, color } = note;
   const [isHovering, setIsHovering] = useState(false);
-  const [pinned, setPinned] = useState(isPinned);
+  const [isPinned, setIsPinned] = useState(pinned);
   const [backgroundColor, setBackgroundColor] = useState(color);
 
   const handleDelete = () => {
@@ -50,26 +51,26 @@ const NoteCard: React.FC<NoteCardProps> = ({ edit, deleteNote, data }) => {
   };
 
   const handlePinned = () => {
-    edit(id, {
+    editNote(id, {
       title,
       content,
       id,
       createdAt,
-      isCompleted,
-      isPinned: !pinned,
-      color,
+      completed,
+      pinned: !isPinned,
+      color: backgroundColor,
     });
-    setPinned(!pinned);
+    setIsPinned(!isPinned);
   };
 
   const handleBackgrounChange = (color: string) => {
-    edit(id, {
+    editNote(id, {
       title,
       content,
       id,
       createdAt,
-      isCompleted,
-      isPinned,
+      completed,
+      pinned: isPinned,
       color,
     });
     setBackgroundColor(color);
@@ -80,7 +81,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ edit, deleteNote, data }) => {
       minW='sm'
       maxW='fit-content'
       size='sm'
-      bg={backgroundColor}
+      bg={backgroundColor || 'default'}
       border={
         backgroundColor == 'transparent'
           ? '1px solid gray'
@@ -97,15 +98,14 @@ const NoteCard: React.FC<NoteCardProps> = ({ edit, deleteNote, data }) => {
           justify={'space-between'}
           width={'100%'}
         >
-          {title ? (
-            <Text
-              fontSize='xl'
-              fontWeight='bold'
-            >
-              {title}
-            </Text>
-          ) : null}
-          {pinned ? (
+          <Text
+            fontSize='xl'
+            fontWeight='bold'
+          >
+            {title || null}
+          </Text>
+
+          {isPinned ? (
             <IconButton
               isRound={true}
               aria-label='Unpin note'
@@ -151,23 +151,6 @@ const NoteCard: React.FC<NoteCardProps> = ({ edit, deleteNote, data }) => {
                 dir='row'
                 gap={2}
               >
-                {/* <MenuItem
-                  p={0}
-                  w={7}
-                  bg={'transparent'}
-                  borderRadius={'100%'}
-                  border={'2px solid transparent'}
-                  _hover={{
-                    border: '2px solid white',
-                  }}
-                  onClick={() => handleBackgrounChange('transparent')}
-                  icon={
-                    <Icon
-                      boxSize={6}
-                      as={RiBlurOffLine}
-                    />
-                  }
-                /> */}
                 {colors.map((color) => {
                   return (
                     <MenuItem

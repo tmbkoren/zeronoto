@@ -1,13 +1,15 @@
 import { Authenticator } from 'remix-auth';
 import { sessionStorage } from '~/services/session.server';
 import { prisma } from './prisma.server';
-import { json } from '@remix-run/node';
 
 // Create an instance of the authenticator, pass a generic with what
 // strategies will return and will store in the session
-export let authenticator = new Authenticator<User>(sessionStorage);
+
 
 import { GoogleStrategy } from 'remix-auth-google';
+import { User } from '~/types/types';
+
+export let authenticator = new Authenticator<User>(sessionStorage);
 
 let googleStrategy = new GoogleStrategy(
   {
@@ -38,4 +40,5 @@ let googleStrategy = new GoogleStrategy(
   }
 );
 
+//@ts-ignore
 authenticator.use(googleStrategy);

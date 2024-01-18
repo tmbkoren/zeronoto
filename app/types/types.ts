@@ -1,26 +1,31 @@
-export type NoteCard = {
-  title: string;
+export type Note = {
+  title: string | null;
   content: string;
   id: string;
   createdAt: Date;
-  isCompleted: boolean;
-  isPinned: boolean;
-  color: undefined | string;
+  completed: boolean;
+  pinned: boolean;
+  color: null | string;
 };
 
 export type NoteCardProps = {
-  data: NoteCard;
-  edit: (id: string, note: any) => void;
+  data: Note;
+  editNote: (id: string, note: any) => void;
   deleteNote: (id: string) => void;
 };
 
 export type NoteCardDisplayProps = {
-  data: NoteCard[];
+  userId: string;
+  data: Note[];
 };
 
 export type User = {
   isRegistered: boolean;
-  uid: string;
+  id: string;
   email?: string;
-  notes?: NoteCard[];
-}
+  notes?: Note[];
+};
+
+export type CreateNoteFormProps = {
+  userId: string;
+};

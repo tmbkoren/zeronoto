@@ -1,7 +1,6 @@
 import { Button, useColorMode } from '@chakra-ui/react';
 import {
   json,
-  type ActionFunctionArgs,
   type LoaderFunctionArgs,
   type MetaFunction,
 } from '@remix-run/node';
@@ -43,8 +42,12 @@ export default function Index() {
     <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
       {userId ? (
         <>
-          <CreateNoteForm userId={userId}/>
-          <NoteCardDisplay userId={userId} data={data.notes} />
+          <CreateNoteForm userId={userId} />
+          <NoteCardDisplay
+            userId={userId}
+            //@ts-ignore
+            data={data.notes}
+          />
         </>
       ) : null}
       {userId ? (

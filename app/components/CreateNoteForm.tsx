@@ -1,33 +1,12 @@
 import { Box, Button, Collapse, Flex, Input, Textarea } from '@chakra-ui/react';
-import { ActionFunctionArgs, redirect } from '@remix-run/node';
-import { Form, useActionData, useFetcher } from '@remix-run/react';
+import { useFetcher } from '@remix-run/react';
 import { useEffect, useRef, useState } from 'react';
 import { CreateNoteFormProps } from '~/types/types';
 
-export let action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-  const title = String(formData.get('title'));
-  const content = String(formData.get('content'));
-  const userId = String(formData.get('userId'));
-  console.log('creating note', userId, title, content);
-  await fetch('/createNote', {
-    method: 'post',
-    body: JSON.stringify({ title, content, userId }),
-  });
-
-  return null;
-};
-
 const CreateNoteForm: React.FC<CreateNoteFormProps> = ({ userId }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const form = useRef(null);
-  const actionData = useActionData();
-
-  useEffect(() => {
-    if (actionData?.ok) {
-      form.current?.reset();
-    }
-  }, [actionData]);
+  const form = useRef<HTMLFormElement>(null);
+  const fetcher = useFetcher();
 
   const clearForm = () => {
     //@ts-ignore
@@ -35,9 +14,15 @@ const CreateNoteForm: React.FC<CreateNoteFormProps> = ({ userId }) => {
     setIsFocused(false);
   };
 
+  useEffect(() => {
+    if (fetcher.state === 'idle') {
+      clearForm();
+    }
+  }, [fetcher.state]);
+
   return (
-    <Form
-      //action='/createNote'
+    <fetcher.Form
+      action='/createNote'
       method='post'
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
@@ -80,7 +65,7 @@ const CreateNoteForm: React.FC<CreateNoteFormProps> = ({ userId }) => {
           </Flex>
         </Collapse>
       </Flex>
-    </Form>
+    </fetcher.Form>
   );
 };
 

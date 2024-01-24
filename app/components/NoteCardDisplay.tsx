@@ -25,16 +25,30 @@ const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({ userId, data }) => {
 
   return (
     <>
-      {notes.map((item) => {
-        return (
-          <NoteCard
-            key={item.id}
-            data={item}
-            editNote={editNote}
-            deleteNote={deleteNote}
-          />
-        );
-      })}
+      {notes
+        .filter((item) => item.pinned)
+        .map((item) => {
+          return (
+            <NoteCard
+              key={item.id}
+              data={item}
+              editNote={editNote}
+              deleteNote={deleteNote}
+            />
+          );
+        })}
+      {notes
+        .filter((item) => !item.pinned)
+        .map((item) => {
+          return (
+            <NoteCard
+              key={item.id}
+              data={item}
+              editNote={editNote}
+              deleteNote={deleteNote}
+            />
+          );
+        })}
     </>
   );
 };

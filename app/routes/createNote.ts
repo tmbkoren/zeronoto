@@ -5,9 +5,12 @@ import { createNote } from '~/services/note.server';
 export let loader = () => redirect('/');
 
 export let action = async ({ request }: ActionFunctionArgs) => {
-  const data = request.json();
-  console.log('creating note', data);
-  //await createNote(user.id, title, content);
+  const formData = await request.formData();
+  const title = String(formData.get('title'));
+  const content = String(formData.get('content'));
+  const userId = String(formData.get('userId'));
+  console.log('creating note', userId, title, content);
+  await createNote(userId, title, content);
 
   return redirect('/');
 };

@@ -1,4 +1,4 @@
-import { Button, useColorMode } from '@chakra-ui/react';
+import { Box, Button, useColorMode } from '@chakra-ui/react';
 import {
   json,
   type LoaderFunctionArgs,
@@ -39,7 +39,10 @@ export default function Index() {
 
   //const [data, editNoteById, deleteNoteById] = useOutletContext();
   return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
+    <Box
+      style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}
+      padding={5}
+    >
       {userId ? (
         <>
           <CreateNoteForm userId={userId} />
@@ -60,6 +63,6 @@ export default function Index() {
       ) : (
         <Link to='/login'>Login</Link>
       )}
-    </div>
+    </Box>
   );
 }

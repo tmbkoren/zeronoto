@@ -1,6 +1,7 @@
 import { Note, NoteCardDisplayProps } from '~/types/types';
 import NoteCard from './NoteCard';
 import { useEffect, useState } from 'react';
+import { Grid } from '@chakra-ui/react';
 
 const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({ userId, data }) => {
   const [notes, setNotes] = useState(data);
@@ -24,7 +25,15 @@ const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({ userId, data }) => {
   };
 
   return (
-    <>
+    //TODO: Masonry grid, if possible
+    <Grid
+      templateColumns={{
+        sm: 'repeat(1, minmax(100px, 1fr))',
+        md: 'repeat(3, minmax(200px, 1fr))',
+        xl: 'repeat(4, minmax(300px, 1fr))',
+      }}
+      gap={3}
+    >
       {notes
         .filter((item) => item.pinned)
         .map((item) => {
@@ -49,7 +58,7 @@ const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({ userId, data }) => {
             />
           );
         })}
-    </>
+    </Grid>
   );
 };
 

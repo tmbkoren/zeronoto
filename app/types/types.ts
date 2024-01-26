@@ -29,3 +29,7 @@ export type User = {
 export type CreateNoteFormProps = {
   userId: string;
 };
+
+export type LoginOutButtonProps = {
+  action: 'login' | 'logout';
+};

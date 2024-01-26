@@ -1,4 +1,4 @@
-import { Box, Button, useColorMode } from '@chakra-ui/react';
+import { Box, Button, Flex, useColorMode } from '@chakra-ui/react';
 import {
   json,
   type LoaderFunctionArgs,
@@ -10,6 +10,7 @@ import NoteCardDisplay from '~/components/NoteCardDisplay';
 import { authenticator } from '~/services/auth.server';
 import { Note, NoteCardDisplayProps, User } from '~/types/types';
 import { getNotesById } from '~/services/note.server';
+import LoginOutButton from '~/components/LoginOutButton';
 
 export const meta: MetaFunction = () => {
   return [
@@ -44,24 +45,24 @@ export default function Index() {
       padding={5}
     >
       {userId ? (
-        <>
+        <Flex
+          direction={'column'}
+          justify={'center'}
+          align={'center'}
+          gap={5}
+        >
           <CreateNoteForm userId={userId} />
           <NoteCardDisplay
             userId={userId}
             //@ts-ignore
             data={data.notes}
           />
-        </>
+        </Flex>
       ) : null}
       {userId ? (
-        <Form
-          action='/logout'
-          method='post'
-        >
-          <Button type='submit'>Logout</Button>
-        </Form>
+        <LoginOutButton action={'logout'} />
       ) : (
-        <Link to='/login'>Login</Link>
+        <LoginOutButton action={'login'} />
       )}
     </Box>
   );

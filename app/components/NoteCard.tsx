@@ -94,43 +94,76 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
         onMouseOver={() => setIsHovering(true)}
         onMouseOut={() => setIsHovering(false)}
       >
-        <CardHeader pb={0}>
-          <Flex
-            justify={'space-between'}
-            width={'100%'}
-          >
-            <Heading
-              fontSize='xl'
-              fontWeight='bold'
-              overflowWrap={'anywhere'}
+        {title ? (
+          <>
+            <CardHeader pb={0}>
+              <Flex
+                justify={'space-between'}
+                align={'center'}
+                width={'100%'}
+              >
+                <Heading
+                  fontSize='xl'
+                  fontWeight='bold'
+                  overflowWrap={'anywhere'}
+                >
+                  {title || null}
+                </Heading>
+
+                {isPinned ? (
+                  <IconButton
+                    isRound={true}
+                    aria-label='Unpin note'
+                    bg='transparent'
+                    onClick={() => handlePinned()}
+                    icon={<RiPushpinFill />}
+                  />
+                ) : (
+                  <IconButton
+                    isRound={true}
+                    aria-label='Pin note'
+                    bg='transparent'
+                    onClick={() => handlePinned()}
+                    color={isHovering ? 'white' : 'transparent'}
+                    icon={<RiPushpinLine />}
+                  />
+                )}
+              </Flex>
+            </CardHeader>
+
+            <CardBody>
+              <Text>{content}</Text>
+            </CardBody>
+          </>
+        ) : (
+          <CardBody>
+            <Flex
+              justify={'space-between'}
+              width={'100%'}
             >
-              {title || null}
-            </Heading>
+              <Text overflowWrap={'anywhere'}>{content}</Text>
+              {isPinned ? (
+                <IconButton
+                  isRound={true}
+                  aria-label='Unpin note'
+                  bg='transparent'
+                  onClick={() => handlePinned()}
+                  icon={<RiPushpinFill />}
+                />
+              ) : (
+                <IconButton
+                  isRound={true}
+                  aria-label='Pin note'
+                  bg='transparent'
+                  onClick={() => handlePinned()}
+                  color={isHovering ? 'white' : 'transparent'}
+                  icon={<RiPushpinLine />}
+                />
+              )}
+            </Flex>
+          </CardBody>
+        )}
 
-            {isPinned ? (
-              <IconButton
-                isRound={true}
-                aria-label='Unpin note'
-                bg='transparent'
-                onClick={() => handlePinned()}
-                icon={<RiPushpinFill />}
-              />
-            ) : (
-              <IconButton
-                isRound={true}
-                aria-label='Pin note'
-                bg='transparent'
-                onClick={() => handlePinned()}
-                color={isHovering ? 'white' : 'transparent'}
-                icon={<RiPushpinLine />}
-              />
-            )}
-          </Flex>
-        </CardHeader>
-
-        <CardBody>
-          <Text>{content}</Text>
-        </CardBody>
         <CardFooter>
           <Flex
             justify={'space-between'}

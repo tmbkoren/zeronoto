@@ -16,8 +16,17 @@ import {
   GridItem,
   Grid,
   Heading,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  Editable,
+  EditablePreview,
+  EditableInput,
+  EditableTextarea,
+  Textarea,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import {
   RiPaletteFill,
@@ -28,6 +37,7 @@ import {
   RiPushpinLine,
   RiBlurOffLine,
 } from 'react-icons/ri';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import { NoteCardProps } from '~/types/types';
 
@@ -48,6 +58,8 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [isPinned, setIsPinned] = useState(pinned);
   const [backgroundColor, setBackgroundColor] = useState(color);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const finalRef = useRef(null);
 
   const handleDelete = () => {
     deleteNote(id);
@@ -106,6 +118,8 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
                   fontSize='xl'
                   fontWeight='bold'
                   overflowWrap={'anywhere'}
+                  onClick={onOpen}
+                  cursor={'edit'}
                 >
                   {title || null}
                 </Heading>
@@ -132,7 +146,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
             </CardHeader>
 
             <CardBody>
-              <Text>{content}</Text>
+              <Text onClick={onOpen}>{content}</Text>
             </CardBody>
           </>
         ) : (
@@ -141,7 +155,12 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
               justify={'space-between'}
               width={'100%'}
             >
-              <Text overflowWrap={'anywhere'}>{content}</Text>
+              <Text
+                overflowWrap={'anywhere'}
+                onClick={onOpen}
+              >
+                {content}
+              </Text>
               {isPinned ? (
                 <IconButton
                   isRound={true}
@@ -222,6 +241,177 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
           </Flex>
         </CardFooter>
       </Card>
+      <Modal
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+        //@ts-ignore
+        colorScheme={color}
+        isCentered={true}
+      >
+        <ModalOverlay />
+        <ModalContent
+          borderRadius={'lg'}
+          p={0}
+          height={'fit-content'}
+          overflow={'hidden'}
+        >
+          <Card
+            maxH={'80vh'}
+            bg={backgroundColor || undefined}
+          >
+            <Box
+              overflow={'clip auto'}
+              css={{
+                '&::-webkit-scrollbar': {
+                  width: '10px',
+                  backgroundColor: 'transparent',
+                },
+                '&::-webkit-scrollbar:hover': {
+                  backgroundColor: 'rgba(138, 126, 132, 0.39)',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: 'white',
+                  //borderRadius: '10px',
+                  backgroundClip: 'padding-box',
+                  border: '2px solid transparent',
+                },
+              }}
+            >
+              <CardHeader
+                p={2}
+                pt={4}
+              >
+                <Flex
+                  justify={'space-between'}
+                  width={'100%'}
+                >
+                  <Editable
+                    defaultValue={title}
+                    placeholder='Title'
+                    flexGrow={2}
+                  >
+                    <EditablePreview
+                      p={2}
+                      pt={4}
+                      color={title ? 'white' : 'gray'}
+                    />
+                    <EditableInput
+                      p={2}
+                      _focus={{
+                        border: '1px solid transparent',
+                        boxShadow: 'none',
+                      }}
+                    />
+                  </Editable>
+                  {isPinned ? (
+                    <IconButton
+                      isRound={true}
+                      aria-label='Unpin note'
+                      bg='transparent'
+                      onClick={() => handlePinned()}
+                      icon={<RiPushpinFill />}
+                    />
+                  ) : (
+                    <IconButton
+                      isRound={true}
+                      aria-label='Pin note'
+                      bg='transparent'
+                      onClick={() => handlePinned()}
+                      icon={<RiPushpinLine />}
+                    />
+                  )}
+                </Flex>
+              </CardHeader>
+              <CardBody p={2}>
+                <Editable
+                  defaultValue={content}
+                  overflow={'clip'}
+                >
+                  <EditablePreview
+                    p={2}
+                    whiteSpace={'pre-wrap'}
+                    wordBreak={'break-word'}
+                  />
+                  <EditableTextarea
+                    as={TextareaAutosize}
+                    //resize={'none'}
+                    whiteSpace={'pre-wrap'}
+                    wordBreak={'break-word'}
+                    boxSizing={'border-box'}
+                    overflow={'clip'}
+                    height={'90%'}
+                    p={2}
+                    _focus={{
+                      border: '1px solid transparent',
+                      boxShadow: 'none',
+                    }}
+                  />
+                </Editable>
+              </CardBody>
+            </Box>
+
+            <CardFooter>
+              <Flex
+                justify={'space-between'}
+                width={'100%'}
+              >
+                <Menu closeOnSelect={false}>
+                  <MenuButton
+                    isRound={true}
+                    as={IconButton}
+                    aria-label='Select background color'
+                    bg='transparent'
+                    color={'white'}
+                    icon={<RiPaletteLine />}
+                  />
+                  <MenuList
+                    p={2}
+                    width={'fit-content'}
+                  >
+                    <Flex
+                      dir='row'
+                      gap={2}
+                    >
+                      {colors.map((color) => {
+                        return (
+                          <MenuItem
+                            w={4}
+                            bg={color}
+                            key={color}
+                            borderRadius={'100%'}
+                            border={`2px solid ${
+                              backgroundColor == color ? 'white' : 'transparent'
+                            }`}
+                            onClick={() => handleBackgrounChange(color)}
+                            _hover={{
+                              border: '2px solid white',
+                            }}
+                          >
+                            <Box
+                              h={3}
+                              w={3}
+                            />
+                          </MenuItem>
+                        );
+                      })}
+                    </Flex>
+                  </MenuList>
+                </Menu>
+                <IconButton
+                  isRound={true}
+                  aria-label='Delete note'
+                  bg='transparent'
+                  onClick={() => handleDelete()}
+                  color={'white'}
+                  icon={<RiDeleteBin6Line />}
+                />
+                <Button bg={'transparent'}>Cancel</Button>
+              </Flex>
+            </CardFooter>
+          </Card>
+        </ModalContent>
+      </Modal>
     </GridItem>
   );
 };

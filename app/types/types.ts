@@ -1,5 +1,5 @@
 export type Note = {
-  title: string | null;
+  title: string | undefined;
   content: string;
   id: string;
   createdAt: Date;

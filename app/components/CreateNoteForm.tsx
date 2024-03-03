@@ -2,6 +2,7 @@ import { Box, Button, Collapse, Flex, Input, Textarea } from '@chakra-ui/react';
 import { useFetcher } from '@remix-run/react';
 import { useEffect, useRef, useState } from 'react';
 import { CreateNoteFormProps } from '~/types/types';
+import TextareaAutosize from 'react-textarea-autosize';
 
 const CreateNoteForm: React.FC<CreateNoteFormProps> = ({ userId }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -52,6 +53,7 @@ const CreateNoteForm: React.FC<CreateNoteFormProps> = ({ userId }) => {
         />
         <Collapse in={isFocused}>
           <Textarea
+            as={TextareaAutosize}
             name='content'
             placeholder='Content'
             style={{ fontSize: '1.2rem' }}

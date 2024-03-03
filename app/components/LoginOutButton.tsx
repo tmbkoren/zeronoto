@@ -1,4 +1,4 @@
-import { Button, IconButton } from '@chakra-ui/react';
+import { Box, Button, FormControl, IconButton } from '@chakra-ui/react';
 import { LoginOutButtonProps } from '~/types/types';
 import {
   RiLoginBoxLine,
@@ -9,17 +9,23 @@ import { Form } from '@remix-run/react';
 
 const LoginOutButton: React.FC<LoginOutButtonProps> = ({ action }) => {
   return (
-    <Form
-      action={`/${action}`}
-      method={action === 'logout' ? 'post' : 'get'}
+    <Box
+      pos='fixed'
+      top={3}
+      right={3}
     >
-      <IconButton
-        type='submit'
-        aria-label={action}
-        isRound={true}
-        icon={action === 'login' ? <RiLoginBoxLine /> : <RiLogoutBoxFill />}
-      />
-    </Form>
+      <Form
+        action={`/${action}`}
+        method={action === 'logout' ? 'post' : 'get'}
+      >
+        <IconButton
+          type='submit'
+          aria-label={action}
+          isRound={true}
+          icon={action === 'login' ? <RiLoginBoxLine /> : <RiLogoutBoxFill />}
+        />
+      </Form>
+    </Box>
   );
 };
 

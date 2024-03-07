@@ -54,6 +54,8 @@ const colors = [
 
 const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
   const [note, setNote] = useState(data);
+  const [editedTitle, setEditedTitle] = useState('');
+  const [editedContent, setEditedContent] = useState('');
   let { title, content, id, createdAt, completed, pinned, color } = note;
   const [isHovering, setIsHovering] = useState(false);
   const [isPinned, setIsPinned] = useState(pinned);
@@ -91,6 +93,40 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
     setBackgroundColor(color);
   };
 
+  const handleModalOpen = () => {
+    setEditedTitle(title || '');
+    setEditedContent(content);
+    onOpen();
+    console.log(editedTitle, editedContent);
+  };
+
+  const handleModalClose = () => {
+    console.log('closing');
+    editNote(id, {
+      title: editedTitle || null,
+      content: editedContent || content,
+      id,
+      createdAt,
+      completed,
+      pinned,
+      color,
+    });
+    setNote({
+      title: editedTitle || undefined,
+      content: editedContent || content,
+      id,
+      createdAt,
+      completed,
+      pinned,
+      color,
+    });
+    onClose();
+  };
+
+  const handleModalCancel = () => {
+    onClose();
+  };
+
   return (
     <GridItem>
       <Card
@@ -118,7 +154,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
                   fontSize='xl'
                   fontWeight='bold'
                   overflowWrap={'anywhere'}
-                  onClick={onOpen}
+                  onClick={handleModalOpen}
                   cursor={'edit'}
                 >
                   {title || null}
@@ -146,7 +182,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
             </CardHeader>
 
             <CardBody>
-              <Text onClick={onOpen}>{content}</Text>
+              <Text onClick={handleModalOpen}>{content}</Text>
             </CardBody>
           </>
         ) : (
@@ -244,7 +280,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
       <Modal
         finalFocusRef={finalRef}
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={handleModalClose}
         //@ts-ignore
         colorScheme={color}
         isCentered={true}
@@ -290,6 +326,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
                     defaultValue={title}
                     placeholder='Title'
                     flexGrow={2}
+                    onChange={(value) => setEditedTitle(value)}
                   >
                     <EditablePreview
                       p={2}
@@ -327,6 +364,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
                 <Editable
                   defaultValue={content}
                   overflow={'clip'}
+                  onChange={(value) => setEditedContent(value)}
                 >
                   <EditablePreview
                     p={2}
@@ -406,7 +444,12 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
                   color={'white'}
                   icon={<RiDeleteBin6Line />}
                 />
-                <Button bg={'transparent'}>Cancel</Button>
+                <Button
+                  bg={'transparent'}
+                  onClick={handleModalCancel}
+                >
+                  Cancel
+                </Button>
               </Flex>
             </CardFooter>
           </Card>

@@ -28,14 +28,9 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 
-import {
-  RiPaletteLine,
-  RiPushpinFill,
-  RiPushpinLine,
-} from 'react-icons/ri';
+import { RiPaletteLine, RiPushpinFill, RiPushpinLine } from 'react-icons/ri';
 
 import { FaTrashCan } from 'react-icons/fa6';
-
 
 import TextareaAutosize from 'react-textarea-autosize';
 

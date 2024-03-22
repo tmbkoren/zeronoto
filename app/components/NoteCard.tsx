@@ -30,7 +30,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { RiPaletteLine, RiPushpinFill, RiPushpinLine } from 'react-icons/ri';
 
-import { FaTrashCan } from 'react-icons/fa6';
+import { RiDeleteBinLine } from '@react-icons/all-files/ri/RiDeleteBinLine';
 
 import TextareaAutosize from 'react-textarea-autosize';
 
@@ -267,7 +267,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
               bg='transparent'
               onClick={() => handleDelete()}
               color={isHovering ? 'white' : 'transparent'}
-              icon={<FaTrashCan />}
+              icon={<RiDeleteBinLine />}
             />
           </Flex>
         </CardFooter>
@@ -437,7 +437,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
                   bg='transparent'
                   onClick={() => handleDelete()}
                   color={'white'}
-                  icon={<FaTrashCan />}
+                  icon={<RiDeleteBinLine />}
                 />
                 <Button
                   bg={'transparent'}

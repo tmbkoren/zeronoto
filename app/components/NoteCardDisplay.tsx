@@ -25,8 +25,8 @@ const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({ userId, data }) => {
   };
 
   return (
-    //TODO: Masonry grid, if possible
     <Grid
+      
       templateColumns={{
         sm: 'repeat(1, minmax(100px, 1fr))',
         md: 'repeat(3, minmax(200px, 1fr))',

@@ -123,7 +123,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
   };
 
   return (
-    <GridItem>
+    <GridItem maxW={'80vw'}>
       <Card
         bg={backgroundColor || 'default'}
         border={

@@ -33,7 +33,9 @@ import {
   RiPushpinFill,
   RiPushpinLine,
 } from 'react-icons/ri';
-import { HiOutlineTrash } from 'react-icons/hi';
+
+import { FaTrashCan } from 'react-icons/fa6';
+
 
 import TextareaAutosize from 'react-textarea-autosize';
 
@@ -270,7 +272,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
               bg='transparent'
               onClick={() => handleDelete()}
               color={isHovering ? 'white' : 'transparent'}
-              icon={<HiOutlineTrash />}
+              icon={<FaTrashCan />}
             />
           </Flex>
         </CardFooter>
@@ -440,7 +442,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
                   bg='transparent'
                   onClick={() => handleDelete()}
                   color={'white'}
-                  icon={<HiOutlineTrash />}
+                  icon={<FaTrashCan />}
                 />
                 <Button
                   bg={'transparent'}

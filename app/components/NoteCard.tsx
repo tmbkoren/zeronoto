@@ -29,14 +29,12 @@ import {
 import { useEffect, useRef, useState } from 'react';
 
 import {
-  RiPaletteFill,
   RiPaletteLine,
-  RiDeleteBin6Line,
-  RiDeleteBin6Fill,
   RiPushpinFill,
   RiPushpinLine,
-  RiBlurOffLine,
 } from 'react-icons/ri';
+import { HiOutlineTrash } from 'react-icons/hi';
+
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { NoteCardProps } from '~/types/types';
@@ -272,7 +270,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
               bg='transparent'
               onClick={() => handleDelete()}
               color={isHovering ? 'white' : 'transparent'}
-              icon={<RiDeleteBin6Line />}
+              icon={<HiOutlineTrash />}
             />
           </Flex>
         </CardFooter>
@@ -442,7 +440,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
                   bg='transparent'
                   onClick={() => handleDelete()}
                   color={'white'}
-                  icon={<RiDeleteBin6Line />}
+                  icon={<HiOutlineTrash />}
                 />
                 <Button
                   bg={'transparent'}

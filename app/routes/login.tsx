@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import { authenticator } from '~/services/auth.server';
@@ -15,7 +15,7 @@ export default function Login() {
       action={user ? '/logout' : '/auth/google'}
       method='post'
     >
-      <button>{user ? 'Logout' : 'Login with Google'}</button>
+      <Button>{user ? 'Logout' : 'Login with Google'}</Button>
     </Form>
   );
 }

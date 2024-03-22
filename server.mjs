@@ -1,6 +1,6 @@
 import {
-  unstable_createViteServer,
-  unstable_loadViteServerBuild,
+  createViteServer,
+  loadViteServerBuild,
 } from "@remix-run/dev";
 import { createRequestHandler } from "@remix-run/express";
 import { installGlobals } from "@remix-run/node";
@@ -11,7 +11,7 @@ installGlobals();
 let vite =
   process.env.NODE_ENV === "production"
     ? undefined
-    : await unstable_createViteServer();
+    : await createViteServer();
 
 const app = express();
 
@@ -31,7 +31,7 @@ app.all(
   "*",
   createRequestHandler({
     build: vite
-      ? () => unstable_loadViteServerBuild(vite)
+      ? () => loadViteServerBuild(vite)
       : await import("./build/index.js"),
   })
 );

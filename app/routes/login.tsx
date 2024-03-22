@@ -15,7 +15,7 @@ export default function Login() {
       action={user ? '/logout' : '/auth/google'}
       method='post'
     >
-      <Button>{user ? 'Logout' : 'Login with Google'}</Button>
+      <Button type='submit'>{user ? 'Logout' : 'Login with Google'}</Button>
     </Form>
   );
 }

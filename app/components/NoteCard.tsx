@@ -169,7 +169,10 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
                     aria-label='Pin note'
                     bg='transparent'
                     onClick={() => handlePinned()}
-                    color={isHovering ? 'white' : 'transparent'}
+                    color={{
+                      sm: 'white',
+                      md: isHovering ? 'white' : 'transparent',
+                    }}
                     icon={<RiPushpinLine />}
                   />
                 )}
@@ -206,7 +209,10 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
                   aria-label='Pin note'
                   bg='transparent'
                   onClick={() => handlePinned()}
-                  color={isHovering ? 'white' : 'transparent'}
+                  color={{
+                    sm: 'white',
+                    md: isHovering ? 'white' : 'transparent',
+                  }}
                   icon={<RiPushpinLine />}
                 />
               )}
@@ -225,7 +231,10 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
                 as={IconButton}
                 aria-label='Select background color'
                 bg='transparent'
-                color={isHovering ? 'white' : 'transparent'}
+                color={{
+                  sm: 'white',
+                  md: isHovering ? 'white' : 'transparent',
+                }}
                 icon={<RiPaletteLine />}
               />
               <MenuList
@@ -266,7 +275,10 @@ const NoteCard: React.FC<NoteCardProps> = ({ editNote, deleteNote, data }) => {
               aria-label='Delete note'
               bg='transparent'
               onClick={() => handleDelete()}
-              color={isHovering ? 'white' : 'transparent'}
+              color={{
+                sm: 'white',
+                md: isHovering ? 'white' : 'transparent',
+              }}
               icon={<RiDeleteBinLine />}
             />
           </Flex>

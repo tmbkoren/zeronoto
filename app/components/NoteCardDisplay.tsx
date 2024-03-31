@@ -3,13 +3,27 @@ import NoteCard from './NoteCard';
 import { useEffect, useState } from 'react';
 import { Grid } from '@chakra-ui/react';
 
-const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({ userId, data }) => {
-  const [notes, setNotes] = useState(data);
-  //console.log('displaying: ', data);
+const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({ userId }) => {
+  const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    setNotes(data);
-  }, [data]);
+    const fetchData = async () => {
+      const res = await fetch(`/getNotesById/${userId}`)
+        .then((res) => res.json())
+        .then((data) => (setNotes(data.notes), console.log('data:', data)));
+      return res;
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (notes) {
+      setNotes(notes);
+    } else {
+      setNotes([]);
+    }
+  }, [notes]);
 
   const editNote = async (id: string, note: Note) => {
     await fetch(`/editNote/`, {
@@ -26,7 +40,6 @@ const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({ userId, data }) => {
 
   return (
     <Grid
-      
       templateColumns={{
         sm: 'repeat(1, minmax(100px, 1fr))',
         md: 'repeat(3, minmax(200px, 1fr))',

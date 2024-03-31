@@ -1,6 +1,6 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { Form, useLoaderData } from '@remix-run/react';
+import { Form, Link, useLoaderData } from '@remix-run/react';
 import { authenticator } from '~/services/auth.server';
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -16,6 +16,7 @@ export default function Login() {
       method='post'
     >
       <Button type='submit'>{user ? 'Logout' : 'Login with Google'}</Button>
+      <Link to='/'>Proceed without loggin in</Link>
     </Form>
   );
 }

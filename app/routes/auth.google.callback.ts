@@ -4,6 +4,6 @@ import { authenticator } from '~/services/auth.server';
 export let loader = ({ request }: LoaderFunctionArgs) => {
   return authenticator.authenticate('google', request, {
     successRedirect: '/',
-    failureRedirect: '/error',
+    failureRedirect: '/login',
   });
 };

@@ -1,5 +1,5 @@
 export type Note = {
-  title: string | undefined;
+  title: string | null;
   content: string;
   id: string;
   createdAt: Date;
@@ -16,14 +16,12 @@ export type NoteCardProps = {
 
 export type NoteCardDisplayProps = {
   userId: string;
-  data: Note[];
 };
 
 export type User = {
   isRegistered: boolean;
   id: string;
   email?: string;
-  notes?: Note[];
 };
 
 export type CreateNoteFormProps = {

@@ -5,9 +5,13 @@ import {
   RiLogoutBoxFill,
   RiLogoutBoxLine,
 } from 'react-icons/ri';
-import { Form } from '@remix-run/react';
+import { Form, redirect } from '@remix-run/react';
 
 const LoginOutButton: React.FC<LoginOutButtonProps> = ({ action }) => {
+  const clearLocalStorage = () => {
+    window.localStorage.clear();
+  };
+
   return (
     <Box
       pos='fixed'
@@ -20,6 +24,7 @@ const LoginOutButton: React.FC<LoginOutButtonProps> = ({ action }) => {
       >
         <IconButton
           type='submit'
+          onClick={clearLocalStorage}
           aria-label={action}
           isRound={true}
           icon={action === 'login' ? <RiLoginBoxLine /> : <RiLogoutBoxFill />}

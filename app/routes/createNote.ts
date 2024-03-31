@@ -9,7 +9,7 @@ export let action = async ({ request }: ActionFunctionArgs) => {
   const title = String(formData.get('title'));
   const content = String(formData.get('content'));
   const userId = String(formData.get('userId'));
-  console.log('creating note', userId, title, content);
+  console.log('creating note for user', userId, title, content);
   await createNote(userId, title, content);
 
   return redirect('/');

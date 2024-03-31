@@ -26,7 +26,7 @@ let googleStrategy = new GoogleStrategy(
     // Get the user data from your DB or API using the tokens and profile
     // return User.findOrCreate({ email: profile.emails[0].value });
     console.log('profile', profile);
-    let user = await prisma.user.findUnique({
+    let user = await prisma.user.findFirst({
       where: {
         email: profile.emails[0].value,
       },

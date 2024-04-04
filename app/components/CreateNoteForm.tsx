@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import { CreateNoteFormProps } from '~/types/types';
 import TextareaAutosize from 'react-textarea-autosize';
 
-const CreateNoteForm: React.FC<CreateNoteFormProps> = ({ userId }) => {
+const CreateNoteForm: React.FC<CreateNoteFormProps> = ({
+  userId,
+  setRefetch,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
   const form = useRef<HTMLFormElement>(null);
   const fetcher = useFetcher();
@@ -18,6 +21,7 @@ const CreateNoteForm: React.FC<CreateNoteFormProps> = ({ userId }) => {
   useEffect(() => {
     if (fetcher.state === 'idle') {
       clearForm();
+      setRefetch(true);
     }
   }, [fetcher.state]);
 

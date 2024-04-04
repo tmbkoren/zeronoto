@@ -16,6 +16,8 @@ export type NoteCardProps = {
 
 export type NoteCardDisplayProps = {
   userId: string;
+  refetch: boolean;
+  setRefetch: (value: boolean) => void;
 };
 
 export type User = {
@@ -26,8 +28,13 @@ export type User = {
 
 export type CreateNoteFormProps = {
   userId: string;
+  setRefetch: (value: boolean) => void;
 };
 
 export type LoginOutButtonProps = {
   action: 'login' | 'logout';
+};
+
+export type ClipboardTextProps = {
+  text: string | null;
 };

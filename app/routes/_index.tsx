@@ -46,6 +46,7 @@ export default function Index() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { userId } = useLoaderData<NoteCardDisplayProps>();
   const [uid, setUid] = useState<string | null>(userId);
+  const [refetch, setRefetch] = useState<boolean>(true);
   //@ts-ignore
   console.log('userId:', uid);
 
@@ -72,7 +73,9 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem('userId', uid);
+    if (!userId) {
+      window.localStorage.setItem('userId', uid);
+    }
   }, [uid]);
 
   return (
@@ -87,9 +90,14 @@ export default function Index() {
           align={'center'}
           gap={5}
         >
-          <CreateNoteForm userId={userId || uid} />
+          <CreateNoteForm
+            userId={userId || uid}
+            setRefetch={setRefetch}
+          />
           <NoteCardDisplay
             userId={uid}
+            refetch={refetch}
+            setRefetch={setRefetch}
             //@ts-ignore
           />
         </Flex>

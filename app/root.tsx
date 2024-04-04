@@ -85,7 +85,6 @@ const Document = withEmotionCache(
           {children}
           <ScrollRestoration />
           <Scripts />
-          <LiveReload />
         </body>
       </html>
     );
@@ -103,8 +102,11 @@ export default function App() {
   return (
     <Document>
       <ChakraProvider theme={customTheme}>
-        <Flex justify={'center'} padding={8}>
-          <Outlet context={[null, null, null]} />
+        <Flex
+          justify={'center'}
+          padding={8}
+        >
+          <Outlet />
         </Flex>
       </ChakraProvider>
     </Document>

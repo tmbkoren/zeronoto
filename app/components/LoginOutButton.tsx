@@ -9,7 +9,9 @@ import { Form, redirect } from '@remix-run/react';
 
 const LoginOutButton: React.FC<LoginOutButtonProps> = ({ action }) => {
   const clearLocalStorage = () => {
-    window.localStorage.clear();
+    if(action === 'logout') {
+      localStorage.clear();
+    }
   };
 
   return (
@@ -24,7 +26,7 @@ const LoginOutButton: React.FC<LoginOutButtonProps> = ({ action }) => {
       >
         <IconButton
           type='submit'
-          onClick={clearLocalStorage}
+          //onClick={clearLocalStorage}
           aria-label={action}
           isRound={true}
           icon={action === 'login' ? <RiLoginBoxLine /> : <RiLogoutBoxFill />}

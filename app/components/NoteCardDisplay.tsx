@@ -3,7 +3,11 @@ import NoteCard from './NoteCard';
 import { useEffect, useState } from 'react';
 import { Grid } from '@chakra-ui/react';
 
-const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({ userId }) => {
+const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({
+  userId,
+  refetch,
+  setRefetch,
+}) => {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
@@ -11,11 +15,15 @@ const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({ userId }) => {
       const res = await fetch(`/getNotesById/${userId}`)
         .then((res) => res.json())
         .then((data) => (setNotes(data.notes), console.log('data:', data)));
+      setRefetch(false);
       return res;
     };
 
-    fetchData();
-  }, []);
+    if (refetch) {
+      fetchData();
+      console.log('refetching');
+    }
+  }, [refetch]);
 
   useEffect(() => {
     if (notes) {

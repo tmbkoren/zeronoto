@@ -1,6 +1,7 @@
 import { Box, Button, Flex, useColorMode } from '@chakra-ui/react';
 import {
   json,
+  redirect,
   type LoaderFunctionArgs,
   type MetaFunction,
 } from '@remix-run/node';
@@ -34,7 +35,6 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   let user = await authenticator.isAuthenticated(request);
-  console.log('line 37 user:', user);
   let userId = null;
   if (user) {
     userId = user.id;
@@ -48,33 +48,38 @@ export default function Index() {
   const [uid, setUid] = useState<string | null>(userId);
   const [refetch, setRefetch] = useState<boolean>(true);
   //@ts-ignore
-  console.log('userId:', uid);
 
   const createTempUser = async () => {
-    console.log('line 48 createTempUser');
     let tempUser = null;
     await fetch(`/createTempUser`)
       .then((res) => res.json())
       .then((data) => (tempUser = data));
-    console.log('line 50 ', tempUser);
+    // @ts-ignore
     setUid(tempUser.id);
   };
 
   useEffect(() => {
+    let temp = window.localStorage.getItem('userId');
     if (!userId) {
-      let temp = window.localStorage.getItem('userId');
-      console.log('getting local storage', temp);
       if (!temp) {
         createTempUser();
       } else {
         setUid(temp);
       }
+    } else if (temp) {
+      // importing local notes and clearing local storage
+      fetch(`/transferNotes`, {
+        method: 'POST',
+        body: JSON.stringify({ localId: temp, userId: userId }),
+      });
+      window.localStorage.removeItem('userId');
+      location.reload();
     }
   }, []);
 
   useEffect(() => {
     if (!userId) {
-      window.localStorage.setItem('userId', uid);
+      window.localStorage.setItem('userId', uid || '');
     }
   }, [uid]);
 

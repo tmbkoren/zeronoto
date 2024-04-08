@@ -14,14 +14,13 @@ const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({
     const fetchData = async () => {
       const res = await fetch(`/getNotesById/${userId}`)
         .then((res) => res.json())
-        .then((data) => (setNotes(data.notes), console.log('data:', data)));
+        .then((data) => setNotes(data.notes));
       setRefetch(false);
       return res;
     };
 
     if (refetch) {
       fetchData();
-      console.log('refetching');
     }
   }, [refetch]);
 

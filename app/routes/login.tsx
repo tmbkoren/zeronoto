@@ -1,8 +1,7 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Button, Flex, Text } from '@chakra-ui/react';
 import { Link as ChakraLink } from '@chakra-ui/react';
-import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { LoaderFunctionArgs } from '@remix-run/node';
 import { Form, Link, useLoaderData } from '@remix-run/react';
-import ClipboardText from '~/components/ClipboardText';
 import { authenticator } from '~/services/auth.server';
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -12,15 +11,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Login() {
   const user = useLoaderData();
-
-  const getUid = () => {
-    try {
-      return window.localStorage.getItem('userId');
-    } catch (error) {
-      console.log('error:', error);
-      return 'loading...';
-    }
-  };
 
   return (
     <Form
@@ -41,10 +31,9 @@ export default function Login() {
           Proceed without logging in
         </ChakraLink>
         <Text>
-          To keep your notes after logging in, click on your id to copy it and
-          paste it after logging it :
+          Your local notes will automatically transfer to your account when you
+          log in.
         </Text>
-        <ClipboardText text={getUid()} />
       </Flex>
     </Form>
   );

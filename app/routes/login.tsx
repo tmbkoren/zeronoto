@@ -27,12 +27,15 @@ export default function Login() {
         <ChakraLink
           as={Link}
           to='/'
+          bg={'gray.700'}
+          p={3}
+          borderRadius={5}
         >
           Proceed without logging in
         </ChakraLink>
         <Text>
           Your local notes will automatically transfer to your account when you
-          log in.
+          log in. You might have to refresh the page after logging in.
         </Text>
       </Flex>
     </Form>

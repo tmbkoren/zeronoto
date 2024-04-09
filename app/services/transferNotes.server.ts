@@ -9,4 +9,9 @@ export const transferNotes = async (localId: string, userId: string) => {
       userId: userId,
     },
   });
+  await prisma.user.delete({
+    where: {
+      id: localId,
+    },
+  });
 };

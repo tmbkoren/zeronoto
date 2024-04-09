@@ -52,6 +52,7 @@ const NoteCardDisplay: React.FC<NoteCardDisplayProps> = ({
         md: 'repeat(3, minmax(200px, 1fr))',
         xl: 'repeat(4, minmax(300px, 1fr))',
       }}
+      w={'80vw'}
       gap={3}
     >
       {notes

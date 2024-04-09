@@ -1,26 +1,15 @@
 import { Box, Button, Flex, useColorMode } from '@chakra-ui/react';
 import {
   json,
-  redirect,
   type LoaderFunctionArgs,
   type MetaFunction,
 } from '@remix-run/node';
-import {
-  Form,
-  Link,
-  useLoaderData,
-  useMatches,
-  useOutletContext,
-  useRouteLoaderData,
-} from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import CreateNoteForm from '~/components/CreateNoteForm';
 import NoteCardDisplay from '~/components/NoteCardDisplay';
 import { authenticator } from '~/services/auth.server';
-import { Note, NoteCardDisplayProps, User } from '~/types/types';
-import { getNotesById } from '~/services/note.server';
+import { NoteCardDisplayProps } from '~/types/types';
 import LoginOutButton from '~/components/LoginOutButton';
-//@ts-ignore ???
-import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from 'react';
 
 export const meta: MetaFunction = () => {
@@ -43,7 +32,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function Index() {
-  const { colorMode, toggleColorMode } = useColorMode();
   const { userId } = useLoaderData<NoteCardDisplayProps>();
   const [uid, setUid] = useState<string | null>(userId);
   const [refetch, setRefetch] = useState<boolean>(true);
